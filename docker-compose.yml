@@ -1,36 +1,26 @@
-mysql5.5:
-  image: mysql:5.5
-  container_name: mysql5.5
-  ports:
-    - 3355:3306
-  environment:
-    - MYSQL_DATABASE=work
-    - MYSQL_USER=worker
-    - MYSQL_PASSWORD=worker
-    - MYSQL_ROOT_PASSWORD=root
-  volumes:
-    - ./mysql5.5/conf.d:/etc/mysql/conf.d
-mysql5.6:
-  image: mysql:5.6
-  container_name: mysql5.6
-  ports:
-    - 3356:3306
-  environment:
-    - MYSQL_DATABASE=work
-    - MYSQL_USER=worker
-    - MYSQL_PASSWORD=worker
-    - MYSQL_ROOT_PASSWORD=root
-  volumes:
-    - ./mysql5.6/conf.d:/etc/mysql/conf.d
-mysql5.7:
+mysql_master:
   image: mysql:5.7
-  container_name: mysql5.7
+  container_name: mysql_master
   ports:
-    - 3357:3306
+    - 3306:3306
   environment:
-    - MYSQL_DATABASE=work
-    - MYSQL_USER=worker
-    - MYSQL_PASSWORD=worker
-    - MYSQL_ROOT_PASSWORD=root
+    - MYSQL_DATABASE=maple
+    - MYSQL_USER=maple
+    - MYSQL_PASSWORD=maple
+    - MYSQL_ROOT_PASSWORD=QwwpugobXH5jJkw7
   volumes:
-    - ./mysql5.5/conf.d:/etc/mysql/conf.d
+    - ./mysql_master/conf.d:/etc/mysql/conf.d
+  links:
+    - mysql_slave
+mysql_slave:
+  image: mysql:5.7
+  container_name: mysql_slave
+  ports:
+    - 3307:3306
+  environment:
+    - MYSQL_DATABASE=maple
+    - MYSQL_USER=maple
+    - MYSQL_PASSWORD=maple
+    - MYSQL_ROOT_PASSWORD=QwwpugobXH5jJkw7
+  volumes:
+    - ./mysql_slave/conf.d:/etc/mysql/conf.d
